@@ -1,54 +1,55 @@
-# Lakera Guard Demo — Guía de instalación
+# Lakera Guard Demo — Installation Guide
 
-Esta guía explica cómo instalar y ejecutar la aplicación en un ordenador nuevo a partir
-del fichero `.zip` que contiene el directorio del proyecto.
+This guide explains how to install and run the application on a new machine from the
+`.zip` file containing the project directory.
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
-| Software | Versión mínima | Notas |
+| Software | Minimum version | Notes |
 |---|---|---|
-| Python | **3.12** | Incluido en la mayoría de Linux modernos; macOS/Windows requieren instalación |
-| Conexión a Internet | — | El proxy llama a la API de Lakera; la UI carga `hyparquet` desde CDN |
+| Python | **3.12** | Included in most modern Linux distros; macOS/Windows require installation |
+| Internet connection | — | The proxy calls the Lakera API; the UI loads `hyparquet` from CDN |
 
-No se necesita ninguna dependencia de Python adicional (el servidor usa exclusivamente la
-biblioteca estándar).
+No additional Python dependencies are required (the server uses only the standard library).
 
 ---
 
-## 1 · Instalar Python 3.12+
+## 1 · Install Python 3.12+
 
 ### Windows
 
-1. Abre <https://www.python.org/downloads/windows/> y descarga el instalador
+1. Open <https://www.python.org/downloads/windows/> and download the
    **Python 3.12.x — Windows installer (64-bit)**.
-2. Ejecuta el instalador. **Marca** la casilla _"Add Python to PATH"_ antes de hacer clic
-   en _Install Now_.
-3. Verifica la instalación abriendo **PowerShell** o **Símbolo del sistema** y ejecutando:
+2. Run the installer. **Check** the _"Add Python to PATH"_ checkbox before clicking
+   _Install Now_.
+3. Verify the installation by opening **PowerShell** or **Command Prompt** and running:
    ```
    python --version
    ```
-   Debe mostrar `Python 3.12.x` (o superior).
+   It should display `Python 3.12.x` (or higher).
 
 ### macOS
 
-**Opción A — Instalador oficial (recomendado para usuarios sin experiencia):**
+**Option A — Official installer (recommended for non-technical users):**
 
-1. Abre <https://www.python.org/downloads/macos/> y descarga el instalador
-   **Python 3.12.x — macOS universal2**.
-2. Abre el `.pkg` descargado y sigue el asistente.
-3. Verifica en **Terminal**:
+1. Open <https://www.python.org/downloads/macos/> and download the
+   **Python 3.12.x — macOS universal2** installer.
+2. Open the downloaded `.pkg` file and follow the wizard.
+3. Verify in **Terminal**:
    ```
    python3 --version
    ```
 
-**Opción B — Homebrew:**
+**Option B — Homebrew:**
 
 ```bash
 brew install python@3.12
 ```
-**Opción C - uv:**
+
+**Option C — uv:**
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 cd lakerademo
@@ -56,6 +57,7 @@ uv init
 uv venv
 source .venv/bin/activate
 ```
+
 ### Linux (Debian / Ubuntu)
 
 ```bash
@@ -63,13 +65,13 @@ sudo apt update
 sudo apt install -y python3.12 python3.12-venv
 ```
 
-En distribuciones basadas en RPM (Fedora, RHEL, Rocky Linux):
+On RPM-based distributions (Fedora, RHEL, Rocky Linux):
 
 ```bash
 sudo dnf install -y python3.12
 ```
 
-Verifica:
+Verify:
 
 ```bash
 python3.12 --version
@@ -77,39 +79,38 @@ python3.12 --version
 
 ---
 
-## 2 · Extraer el fichero ZIP
+## 2 · Extract the ZIP file
 
-### Windows (Explorador de archivos)
+### Windows (File Explorer)
 
-Haz clic derecho sobre el `.zip` → **Extraer todo…** → elige la carpeta de destino →
-**Extraer**.
+Right-click the `.zip` file → **Extract All…** → choose a destination folder → **Extract**.
 
 ### Windows (PowerShell)
 
 ```powershell
-Expand-Archive -Path lakerademo.zip -DestinationPath C:\ruta\destino
+Expand-Archive -Path lakerademo.zip -DestinationPath C:\path\to\destination
 ```
 
 ### macOS / Linux
 
 ```bash
-unzip lakerademo.zip -d /ruta/destino
+unzip lakerademo.zip -d /path/to/destination
 ```
 
-Esto crea el directorio `lakerademo/` con todos los ficheros de la aplicación.
+This creates the `lakerademo/` directory with all application files.
 
 ---
 
-## 3 · Configurar las API keys
+## 3 · Configure API keys
 
-La aplicación necesita al menos una **Lakera API key** y, opcionalmente, una clave de
-proveedor LLM (OpenAI, Anthropic, Gemini, etc.) para que el chat funcione.
+The application requires at least one **Lakera API key** and, optionally, an LLM provider
+key (OpenAI, Anthropic, Gemini, etc.) for the chat to work.
 
-1. Entra en el directorio extraído:
+1. Enter the extracted directory:
    ```bash
-   cd /ruta/destino/lakerademo
+   cd /path/to/destination/lakerademo
    ```
-2. Copia el fichero de ejemplo y ábrelo con cualquier editor de texto:
+2. Copy the example file and open it with any text editor:
 
    ```bash
    # macOS / Linux
@@ -119,28 +120,27 @@ proveedor LLM (OpenAI, Anthropic, Gemini, etc.) para que el chat funcione.
    Copy-Item .env.example .env
    ```
 
-3. Rellena los valores necesarios. Ejemplo mínimo:
+3. Fill in the required values. Minimal example:
 
    ```
-   LAKERA_API_KEY=tu_lakera_api_key_aqui
+   LAKERA_API_KEY=your_lakera_api_key_here
 
    LLM_PROVIDER=openai
-   LLM_API_KEY=tu_openai_api_key_aqui
+   LLM_API_KEY=your_openai_api_key_here
    LLM_MODEL=gpt-4o
    ```
 
-   Consulta la sección de referencia al final de este fichero para conocer todas las
-   variables disponibles.
+   See the reference section at the end of this file for all available variables.
 
-> **Importante:** El fichero `.env` no admite comentarios en la misma línea que un valor
-> (`KEY=valor  # esto rompe el parser`). Los comentarios deben ir en su propia línea,
-> empezando por `#`.
+> **Important:** The `.env` file does not support inline comments on the same line as a
+> value (`KEY=value  # this breaks the parser`). Comments must be on their own line,
+> starting with `#`.
 
 ---
 
-## 4 · Ejecutar el servidor
+## 4 · Start the server
 
-Desde el directorio `lakerademo/`:
+From the `lakerademo/` directory:
 
 ```bash
 # macOS / Linux
@@ -150,13 +150,13 @@ python3 proxy.py
 python proxy.py
 ```
 
-Puerto personalizado (opcional):
+Custom port (optional):
 
 ```bash
 python3 proxy.py 9090
 ```
 
-Al arrancar verás algo similar a:
+On startup you will see something like:
 
 ```
   .env  loaded 4 variable(s): LAKERA_API_KEY, LLM_PROVIDER, LLM_API_KEY, LLM_MODEL
@@ -170,67 +170,67 @@ Press Ctrl+C to stop.
 
 ---
 
-## 5 · Abrir la aplicación
+## 5 · Open the application
 
-Abre tu navegador y ve a:
+Open your browser and navigate to:
 
 ```
 http://localhost:8080
 ```
 
-La interfaz se carga completamente en el navegador. No hace falta instalar nada más.
+The interface runs entirely in the browser. No further installation is needed.
 
-Para detener el servidor pulsa **Ctrl + C** en la terminal.
+To stop the server press **Ctrl + C** in the terminal.
 
 ---
 
-## Referencia de variables de entorno / `.env`
+## Environment variable reference / `.env`
 
 ```
 # ── Lakera Guard ───────────────────────────────────────────────────
-LAKERA_API_KEY=               # Requerido
+LAKERA_API_KEY=               # Required
 
-# Proyectos específicos para Guard IN (screening de prompts)
+# Specific projects for Guard IN (prompt screening)
 LAKERA_GUARD_IN_PROJECT_ID=
 LAKERA_GUARD_IN_PROJECT_NAME=
 
-# Proyectos específicos para Guard OUT (screening de respuestas)
+# Specific projects for Guard OUT (response screening)
 LAKERA_GUARD_OUT_PROJECT_ID=
 LAKERA_GUARD_OUT_PROJECT_NAME=
 
-# Fallback compartido si no se especifican los valores IN/OUT anteriores
+# Shared fallback if the IN/OUT values above are not set
 LAKERA_PROJECT_ID=
 LAKERA_PROJECT_NAME=
 
-# Opcional: sobreescribir el endpoint por defecto
+# Optional: override the default endpoint
 # LAKERA_ENDPOINT=https://api.lakera.ai/v2/guard
 
-# ── Proveedor LLM ──────────────────────────────────────────────────
-# Proveedores soportados: openai | anthropic | gemini | ollama | lmstudio
+# ── LLM Provider ───────────────────────────────────────────────────
+# Supported providers: openai | anthropic | gemini | ollama | lmstudio
 LLM_PROVIDER=openai
 LLM_API_KEY=
 LLM_MODEL=
 
-# Solo necesario para ollama / lmstudio
+# Required only for ollama / lmstudio
 # LLM_ENDPOINT=http://localhost:11434
 
-# Opcional: sobreescribir el system prompt por defecto
+# Optional: override the default system prompt
 # LLM_SYSTEM_PROMPT=You are a helpful assistant.
 ```
 
-Las **variables de entorno del sistema** tienen siempre prioridad sobre los valores del
-fichero `.env`. Esto permite, por ejemplo, inyectar las claves desde un gestor de secretos
-o desde la configuración de un CI/CD sin modificar el fichero.
+System environment variables always take precedence over values in the `.env` file.
+This allows, for example, injecting keys from a secrets manager or a CI/CD configuration
+without modifying the file.
 
 ---
 
-## Solución de problemas frecuentes
+## Troubleshooting
 
-| Síntoma | Causa probable | Solución |
+| Symptom | Likely cause | Fix |
 |---|---|---|
-| `python: command not found` | Python no está en el PATH | Usa `python3` en lugar de `python`, o reinstala marcando "Add to PATH" |
-| `Address already in use` | El puerto 8080 está ocupado | Arranca con otro puerto: `python3 proxy.py 9090` |
-| La UI carga en blanco o falla hyparquet | Sin conexión a Internet | La UI descarga `hyparquet` desde CDN (`esm.sh`) al arrancar; necesita conexión |
-| "Lakera API error 401" | API key incorrecta o vacía | Comprueba `LAKERA_API_KEY` en `.env`; no uses comillas y evita comentarios en la misma línea |
-| "Target host not allowed" | Endpoint personalizado con host no permitido | El proxy solo acepta `api.lakera.ai`, `us-east-1.api.lakera.ai` y `eu-west-1.api.lakera.ai` |
-| El modelo del LLM no se aplica | Valor de `LLM_MODEL` vacío en `.env` | Rellena `LLM_MODEL` con un nombre de modelo válido (p. ej. `gpt-4o`, `gemini-2.0-flash`) |
+| `python: command not found` | Python not in PATH | Use `python3` instead of `python`, or reinstall with "Add to PATH" checked |
+| `Address already in use` | Port 8080 is in use | Start on a different port: `python3 proxy.py 9090` |
+| UI loads blank or hyparquet fails | No internet connection | The UI downloads `hyparquet` from CDN (`esm.sh`) on startup; internet required |
+| "Lakera API error 401" | Incorrect or missing API key | Check `LAKERA_API_KEY` in `.env`; do not use quotes and avoid inline comments |
+| "Target host not allowed" | Custom endpoint with a blocked host | The proxy only accepts `api.lakera.ai`, `us-east-1.api.lakera.ai` and `eu-west-1.api.lakera.ai` |
+| LLM model setting not applied | `LLM_MODEL` empty in `.env` | Set `LLM_MODEL` to a valid model name (e.g. `gpt-4o`, `gemini-2.0-flash`) |
