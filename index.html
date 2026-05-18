@@ -760,28 +760,28 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
         </select>
       </div>
       <div class="fg">
-        <label class="fl">Proxy URL <span style="color:var(--text-muted);font-weight:400">(CORS)</span></label>
+        <label class="fl" data-i18n="modal.proxy.label">Proxy URL</label>
         <input class="fi" type="text" id="cfgLinProxyUrl" placeholder="http://localhost:8080/proxy/lakera">
         <div style="margin-top:5px;font-size:11px;color:var(--text-muted);line-height:1.5">
-          Los navegadores bloquean llamadas directas a Lakera (política CORS).<br>
-          Ejecuta <code style="background:var(--bg-tertiary);padding:1px 5px;border-radius:3px">python3 proxy.py</code> y deja esta URL como está. Se aplica a Guard IN y OUT.<br>
-          <span style="color:var(--text-muted)">Vacío = llamada directa (fallará con CORS desde el navegador).</span>
+          <span data-i18n="modal.proxy.hint.line1">Los navegadores bloquean llamadas directas a Lakera (política CORS).</span><br>
+          <span data-i18n="modal.proxy.hint.line2.pre">Ejecuta</span> <code style="background:var(--bg-tertiary);padding:1px 5px;border-radius:3px">python3 proxy.py</code> <span data-i18n="modal.proxy.hint.line2.suf">y deja esta URL como está. Se aplica a Guard IN y OUT.</span><br>
+          <span style="color:var(--text-muted)" data-i18n="modal.proxy.hint.line3">Vacío = llamada directa (fallará con CORS desde el navegador).</span>
         </div>
       </div>
-      <div class="fg"><label class="fl">Project ID / Nombre <span style="color:var(--text-muted);font-weight:400">(opcional)</span></label>
-        <input class="fi" type="text" id="cfgLinProjectId" placeholder="Nombre o ID del proyecto Lakera (vacío = política por defecto)">
+      <div class="fg"><label class="fl" data-i18n="modal.projectId.label">Project ID / Nombre</label> <span style="color:var(--text-muted);font-weight:400;font-size:12px" data-i18n="modal.projectId.optional">(opcional)</span>
+        <input class="fi" type="text" id="cfgLinProjectId" data-i18n-placeholder="modal.projectId.ph" placeholder="Nombre o ID del proyecto Lakera (vacío = política por defecto)">
       </div>
       <hr class="form-divider">
       <div class="form-section-title" data-i18n="modal.response.section">Opciones de respuesta</div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <div class="ftoggle"><label class="toggle"><input type="checkbox" id="cfgLinBreakdown" checked><div class="ttrack"></div><div class="tthumb"></div></label>
-          <span style="font-size:12px;color:var(--text-secondary)"><b>breakdown</b> — detalle de cada detector ejecutado</span></div>
+          <span style="font-size:12px;color:var(--text-secondary)"><b>breakdown</b> — <span data-i18n="modal.lakera.breakdown.suffix">detalle de cada detector ejecutado</span></span></div>
         <div class="ftoggle"><label class="toggle"><input type="checkbox" id="cfgLinPayload" checked><div class="ttrack"></div><div class="tthumb"></div></label>
-          <span style="font-size:12px;color:var(--text-secondary)"><b>payload</b> — devuelve PII, secretos y regex encontrados con su ubicación</span></div>
+          <span style="font-size:12px;color:var(--text-secondary)"><b>payload</b> — <span data-i18n="modal.lakera.payload.suffix">devuelve PII, secretos y regex encontrados con su ubicación</span></span></div>
       </div>
       <hr class="form-divider">
       <div class="form-section-title" data-i18n="modal.action.section">Comportamiento ante detección</div>
-      <div class="fg"><label class="fl">Acción si <code style="font-size:11px;background:var(--bg-tertiary);padding:1px 4px;border-radius:3px">flagged: true</code></label>
+      <div class="fg"><label class="fl"><span data-i18n="modal.lakera.action.pre">Acción si</span> <code style="font-size:11px;background:var(--bg-tertiary);padding:1px 4px;border-radius:3px">flagged: true</code></label>
         <select class="fs" id="cfgLinAction">
           <option value="block" data-i18n="modal.action.block.in">Bloquear (no enviar al LLM)</option>
           <option value="warn" data-i18n="modal.action.warn">Advertir (enviar con alerta)</option>
@@ -850,7 +850,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
         </div>
       </div>
       <hr class="form-divider">
-      <div class="form-section-title">Conexión API</div>
+      <div class="form-section-title" data-i18n="modal.api.section">Conexión API</div>
       <div class="fg"><label class="fl" data-i18n="modal.lakeraOut.sameKey">Usar misma API Key que Guard IN</label>
         <div class="ftoggle">
           <label class="toggle"><input type="checkbox" id="cfgLoutSameKey" checked onchange="toggleLoutKey()"><div class="ttrack"></div><div class="tthumb"></div></label>
@@ -858,26 +858,26 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
         </div>
       </div>
       <div class="fg" id="loutKeyGroup" style="display:none"><label class="fl" data-i18n="modal.lakeraOut.specificKey">API Key específica</label><input class="fi" type="password" id="cfgLoutKey" placeholder="lk-..."></div>
-      <div class="fg"><label class="fl">Endpoint regional</label>
+      <div class="fg"><label class="fl" data-i18n="modal.api.endpoint">Endpoint regional</label>
         <select class="fs" id="cfgLoutEndpoint">
           <option value="https://api.lakera.ai/v2/guard">Global (auto-routing) — api.lakera.ai</option>
           <option value="https://us-east-1.api.lakera.ai/v2/guard">US East — us-east-1.api.lakera.ai</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Project ID / Nombre <span style="color:var(--text-muted);font-weight:400">(opcional)</span></label>
-        <input class="fi" type="text" id="cfgLoutProjectId" placeholder="Nombre o ID del proyecto Lakera (vacío = política por defecto)">
+      <div class="fg"><label class="fl" data-i18n="modal.projectId.label">Project ID / Nombre</label> <span style="color:var(--text-muted);font-weight:400;font-size:12px" data-i18n="modal.projectId.optional">(opcional)</span>
+        <input class="fi" type="text" id="cfgLoutProjectId" data-i18n-placeholder="modal.projectId.ph" placeholder="Nombre o ID del proyecto Lakera (vacío = política por defecto)">
       </div>
       <hr class="form-divider">
-      <div class="form-section-title">Opciones de respuesta</div>
+      <div class="form-section-title" data-i18n="modal.response.section">Opciones de respuesta</div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <div class="ftoggle"><label class="toggle"><input type="checkbox" id="cfgLoutBreakdown" checked><div class="ttrack"></div><div class="tthumb"></div></label>
-          <span style="font-size:12px;color:var(--text-secondary)"><b>breakdown</b> — detalle de cada detector ejecutado</span></div>
+          <span style="font-size:12px;color:var(--text-secondary)"><b>breakdown</b> — <span data-i18n="modal.lakera.breakdown.suffix">detalle de cada detector ejecutado</span></span></div>
         <div class="ftoggle"><label class="toggle"><input type="checkbox" id="cfgLoutPayload" checked><div class="ttrack"></div><div class="tthumb"></div></label>
-          <span style="font-size:12px;color:var(--text-secondary)"><b>payload</b> — devuelve PII, secretos y regex encontrados con su ubicación</span></div>
+          <span style="font-size:12px;color:var(--text-secondary)"><b>payload</b> — <span data-i18n="modal.lakera.payload.suffix">devuelve PII, secretos y regex encontrados con su ubicación</span></span></div>
       </div>
       <hr class="form-divider">
-      <div class="form-section-title">Comportamiento ante detección</div>
-      <div class="fg"><label class="fl">Acción si <code style="font-size:11px;background:var(--bg-tertiary);padding:1px 4px;border-radius:3px">flagged: true</code></label>
+      <div class="form-section-title" data-i18n="modal.action.section">Comportamiento ante detección</div>
+      <div class="fg"><label class="fl"><span data-i18n="modal.lakera.action.pre">Acción si</span> <code style="font-size:11px;background:var(--bg-tertiary);padding:1px 4px;border-radius:3px">flagged: true</code></label>
         <select class="fs" id="cfgLoutAction">
           <option value="block" data-i18n="modal.action.block.out">Bloquear respuesta</option>
           <option value="warn" data-i18n="modal.action.showWarn">Mostrar con advertencia</option>
@@ -886,7 +886,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
       </div>
       <div class="ftoggle" style="margin-top:8px">
         <label class="toggle"><input type="checkbox" id="cfgLoutShowAlways"><div class="ttrack"></div><div class="tthumb"></div></label>
-        <span style="font-size:12px;color:var(--text-secondary)"><b>Mostrar respuesta del LLM en el panel de salida aunque Guard OUT la bloquee</b></span>
+        <span style="font-size:12px;color:var(--text-secondary)"><b><span data-i18n="modal.lakeraOut.showAlways">Mostrar respuesta del LLM en el panel de salida aunque Guard OUT la bloquee</span></b></span>
       </div>
     </div>
     <div class="modal-ftr"><button class="btn" onclick="closeModal('modalLakeraOut')" data-i18n="btn.cancel">Cancelar</button><button class="btn btn-primary" onclick="saveModal('modalLakeraOut')" data-i18n="btn.save">Guardar</button></div>
@@ -1027,6 +1027,14 @@ const TRANSLATIONS = {
     'modal.llm.temp':'Temperatura (0–2)','modal.llm.maxTokens':'Max tokens','modal.llm.systemPrompt':'System prompt',
     'modal.lakeraOut.sameKey':'Usar misma API Key que Guard IN','modal.lakeraOut.sameKeyDesc':'Sincronizar con Guard IN',
     'modal.lakeraOut.specificKey':'API Key específica',
+    'modal.projectId.optional':'(opcional)',
+    'modal.lakera.breakdown.suffix':'detalle de cada detector ejecutado',
+    'modal.lakera.payload.suffix':'devuelve PII, secretos y regex encontrados con su ubicación',
+    'modal.lakera.action.pre':'Acción si',
+    'modal.proxy.hint.line1':'Los navegadores bloquean llamadas directas a Lakera (política CORS).',
+    'modal.proxy.hint.line2.pre':'Ejecuta','modal.proxy.hint.line2.suf':'y deja esta URL como está. Se aplica a Guard IN y OUT.',
+    'modal.proxy.hint.line3':'Vacío = llamada directa (fallará con CORS desde el navegador).',
+    'modal.lakeraOut.showAlways':'Mostrar respuesta del LLM en el panel de salida aunque Guard OUT la bloquee',
     'modal.output.format':'Formato de visualización','modal.output.formatText':'Texto plano',
     'modal.output.formatMd':'Markdown renderizado','modal.output.formatJson':'JSON raw',
     'modal.output.meta':'Mostrar metadatos de la respuesta','modal.output.metaDesc':'Tokens usados, modelo, latencia...',
@@ -1193,6 +1201,14 @@ const TRANSLATIONS = {
     'modal.llm.temp':'Temperature (0–2)','modal.llm.maxTokens':'Max tokens','modal.llm.systemPrompt':'System prompt',
     'modal.lakeraOut.sameKey':'Use same API Key as Guard IN','modal.lakeraOut.sameKeyDesc':'Sync with Guard IN',
     'modal.lakeraOut.specificKey':'Specific API Key',
+    'modal.projectId.optional':'(optional)',
+    'modal.lakera.breakdown.suffix':'detail of each detector run',
+    'modal.lakera.payload.suffix':'returns PII, secrets and regex found with their location',
+    'modal.lakera.action.pre':'Action if',
+    'modal.proxy.hint.line1':'Browsers block direct calls to Lakera (CORS policy).',
+    'modal.proxy.hint.line2.pre':'Run','modal.proxy.hint.line2.suf':'and leave this URL as is. Applies to Guard IN and OUT.',
+    'modal.proxy.hint.line3':'Empty = direct call (will fail with CORS from the browser).',
+    'modal.lakeraOut.showAlways':'Show LLM response in the output panel even if Guard OUT blocks it',
     'modal.output.format':'Display format','modal.output.formatText':'Plain text',
     'modal.output.formatMd':'Rendered markdown','modal.output.formatJson':'Raw JSON',
     'modal.output.meta':'Show response metadata','modal.output.metaDesc':'Tokens used, model, latency...',
@@ -1359,6 +1375,14 @@ const TRANSLATIONS = {
     'modal.llm.temp':'Température (0–2)','modal.llm.maxTokens':'Max tokens','modal.llm.systemPrompt':'Prompt système',
     'modal.lakeraOut.sameKey':'Utiliser la même clé API que Guard IN','modal.lakeraOut.sameKeyDesc':'Synchroniser avec Guard IN',
     'modal.lakeraOut.specificKey':'Clé API spécifique',
+    'modal.projectId.optional':'(facultatif)',
+    'modal.lakera.breakdown.suffix':'détail de chaque détecteur exécuté',
+    'modal.lakera.payload.suffix':'retourne les PII, secrets et regex trouvés avec leur emplacement',
+    'modal.lakera.action.pre':'Action si',
+    'modal.proxy.hint.line1':'Les navigateurs bloquent les appels directs à Lakera (politique CORS).',
+    'modal.proxy.hint.line2.pre':'Exécutez','modal.proxy.hint.line2.suf':'et laissez cette URL telle quelle. S\'applique à Guard IN et OUT.',
+    'modal.proxy.hint.line3':'Vide = appel direct (échouera avec CORS depuis le navigateur).',
+    'modal.lakeraOut.showAlways':'Afficher la réponse du LLM dans le panneau de sortie même si Guard OUT la bloque',
     'modal.output.format':'Format d\'affichage','modal.output.formatText':'Texte brut',
     'modal.output.formatMd':'Markdown rendu','modal.output.formatJson':'JSON brut',
     'modal.output.meta':'Afficher les métadonnées de la réponse','modal.output.metaDesc':'Tokens utilisés, modèle, latence...',
@@ -1525,6 +1549,14 @@ const TRANSLATIONS = {
     'modal.llm.temp':'Temperatura (0–2)','modal.llm.maxTokens':'Max tokens','modal.llm.systemPrompt':'System prompt',
     'modal.lakeraOut.sameKey':'Usa stessa API Key di Guard IN','modal.lakeraOut.sameKeyDesc':'Sincronizza con Guard IN',
     'modal.lakeraOut.specificKey':'API Key specifica',
+    'modal.projectId.optional':'(opzionale)',
+    'modal.lakera.breakdown.suffix':'dettaglio di ogni rilevatore eseguito',
+    'modal.lakera.payload.suffix':'restituisce PII, segreti e regex trovati con la loro posizione',
+    'modal.lakera.action.pre':'Azione se',
+    'modal.proxy.hint.line1':'I browser bloccano le chiamate dirette a Lakera (policy CORS).',
+    'modal.proxy.hint.line2.pre':'Esegui','modal.proxy.hint.line2.suf':'e lascia questo URL invariato. Si applica a Guard IN e OUT.',
+    'modal.proxy.hint.line3':'Vuoto = chiamata diretta (fallirà con CORS dal browser).',
+    'modal.lakeraOut.showAlways':'Mostra la risposta del LLM nel pannello di output anche se Guard OUT la blocca',
     'modal.output.format':'Formato di visualizzazione','modal.output.formatText':'Testo semplice',
     'modal.output.formatMd':'Markdown renderizzato','modal.output.formatJson':'JSON grezzo',
     'modal.output.meta':'Mostra metadati della risposta','modal.output.metaDesc':'Token usati, modello, latenza...',
