@@ -336,9 +336,9 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
   display:flex;align-items:center;justify-content:center;font-size:22px;
   border:2px solid transparent;position:relative;transition:all .2s;
 }
-.halo-green .arch-node-ico {box-shadow:0 0 0 2px #3fb95070,0 0 12px 4px #3fb95038}
-.halo-orange .arch-node-ico{box-shadow:0 0 0 2px #d29922aa,0 0 12px 5px #d2992255}
-.halo-red .arch-node-ico   {box-shadow:0 0 0 2px #f8514970,0 0 12px 4px #f8514938}
+.halo-green .arch-node-ico {box-shadow:0 0 0 3px #3fb950bb,0 0 14px 5px #3fb95077,0 0 26px 8px #3fb95033}
+.halo-orange .arch-node-ico{box-shadow:0 0 0 3px #d29922ee,0 0 14px 6px #d29922aa,0 0 28px 10px #d2992255}
+.halo-red .arch-node-ico   {box-shadow:0 0 0 3px #f85149bb,0 0 14px 5px #f8514977,0 0 26px 8px #f8514933}
 .arch-node:hover .arch-node-ico{box-shadow:0 0 14px var(--accent)55}
 .arch-node:hover .arch-node-ico{border-color:var(--accent)}
 .n-user .arch-node-ico{background:#1a2e5a;border-color:#3b5ea6}
@@ -346,6 +346,8 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
 .n-llm .arch-node-ico{background:#102a10;border-color:var(--success)}
 .n-lout .arch-node-ico{background:#3a1500;border-color:var(--lakera)}
 .n-out .arch-node-ico{background:#1a1040;border-color:#7c3aed}
+.res-clean .arch-node-ico  {background:#0c2e14;border-color:#3fb95088;transition:background .4s,border-color .4s}
+.res-blocked .arch-node-ico{background:#2e0c0c;border-color:#f8514988;transition:background .4s,border-color .4s}
 .arch-node-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);text-align:center;max-width:76px;line-height:1.2}
 .node-dot{
   position:absolute;top:-4px;right:-4px;width:11px;height:11px;
@@ -2502,8 +2504,16 @@ function setNodeState(id, state) { // idle|run|ok|block
   }
 }
 
+function setNodeResult(id, result) { // 'clean' | 'blocked' | null
+  const el = document.getElementById(`node-${id}`);
+  if (!el) return;
+  el.classList.remove('res-clean','res-blocked');
+  if (result === 'clean')   el.classList.add('res-clean');
+  if (result === 'blocked') el.classList.add('res-blocked');
+}
+
 function resetNodeStates() {
-  archNodes.forEach(n => { setNodeState(n.id, 'idle'); });
+  archNodes.forEach(n => { setNodeState(n.id, 'idle'); setNodeResult(n.id, null); });
 }
 
 function getNodeHalo(id) {
@@ -2673,6 +2683,7 @@ async function runPipeline() {
         const isBlocked = checkLakeraBlocked(res, state.config.lakeraIn);
         if (isBlocked && state.config.lakeraIn.action === 'block') {
           setNodeState('lin', 'block');
+          setNodeResult('lin', 'blocked');
           blockedIn = true;
           showBlockedResponse(t('blocked.by.in'), res);
           document.getElementById('responseStatus').textContent = t('status.blocked');
@@ -2681,6 +2692,7 @@ async function runPipeline() {
           document.getElementById('lakeraStatus').className = 'status-pill sp-blocked';
         } else {
           setNodeState('lin', 'ok');
+          setNodeResult('lin', isBlocked ? 'blocked' : 'clean');
           document.getElementById('lakeraStatus').textContent = isBlocked ? t('status.detected.warn') : t('status.clean');
           document.getElementById('lakeraStatus').className = isBlocked ? 'status-pill sp-running' : 'status-pill sp-ok';
         }
@@ -2750,6 +2762,7 @@ async function runPipeline() {
           const showAlways = state.config.lakeraOut.showResponseAlways;
           if (isBlockedOut && state.config.lakeraOut.action === 'block') {
             setNodeState('lout', 'block');
+            setNodeResult('lout', 'blocked');
             document.getElementById('lakeraStatus').textContent = t('status.blocked.out');
             document.getElementById('lakeraStatus').className = 'status-pill sp-blocked';
             if (showAlways) {
@@ -2766,6 +2779,7 @@ async function runPipeline() {
             }
           } else {
             setNodeState('lout', 'ok');
+            setNodeResult('lout', isBlockedOut ? 'blocked' : 'clean');
             document.getElementById('lakeraStatus').textContent = isBlockedOut ? t('status.detected.warn') : t('status.clean');
             document.getElementById('lakeraStatus').className = isBlockedOut ? 'status-pill sp-running' : 'status-pill sp-ok';
           }
