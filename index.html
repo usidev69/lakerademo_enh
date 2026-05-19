@@ -941,6 +941,32 @@ button,input,select,textarea{font-family:inherit;font-size:inherit}
   </div>
 </div>
 
+<!-- Password modal -->
+<div class="overlay" id="modalPassword">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-hdr">
+      <span class="modal-ico">🔒</span>
+      <span class="modal-ttl" id="pwdModalTitle">Cifrar y guardar configuración</span>
+      <button class="modal-close" onclick="cancelPassword()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fg">
+        <label class="fl" data-i18n="pwd.modal.pw.label">Contraseña</label>
+        <input class="fi" type="password" id="pwdInput" onkeydown="if(event.key==='Enter')submitPassword()">
+      </div>
+      <div class="fg" id="pwdConfirmRow">
+        <label class="fl" data-i18n="pwd.modal.confirm.label">Confirmar contraseña</label>
+        <input class="fi" type="password" id="pwdConfirm" onkeydown="if(event.key==='Enter')submitPassword()">
+      </div>
+      <div id="pwdError" style="color:var(--danger);font-size:12px;min-height:16px;margin-top:4px"></div>
+    </div>
+    <div class="modal-ftr">
+      <button class="btn" onclick="cancelPassword()" data-i18n="btn.cancel">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitPassword()" data-i18n="pwd.modal.ok">Aceptar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ==================== I18N ====================
 const TRANSLATIONS = {
@@ -1117,6 +1143,15 @@ const TRANSLATIONS = {
     'tx.desc.roleplay':'Introduce el prompt como ficción o roleplay para eludir filtros de contenido',
     'tx.desc.typos':'Introduce typos estratégicos en palabras clave para evitar coincidencias exactas',
     'saveModal.btn':'Guardar',
+    'pwd.modal.save.title':'Cifrar y guardar configuración',
+    'pwd.modal.load.title':'Descifrar y cargar configuración',
+    'pwd.modal.pw.label':'Contraseña','pwd.modal.confirm.label':'Confirmar contraseña',
+    'pwd.modal.empty':'La contraseña no puede estar vacía',
+    'pwd.modal.mismatch':'Las contraseñas no coinciden',
+    'pwd.modal.ok':'Aceptar',
+    'msg.config.saved':'Configuración cifrada y guardada',
+    'msg.config.save.error':'Error al cifrar: ',
+    'msg.config.decrypt.error':'Error al descifrar (¿contraseña incorrecta?): ',
   },
   en: {
     'hdr.demo':'/ Demo','hdr.theme.title':'Change visual theme','hdr.theme.btn.title':'Create custom theme',
@@ -1291,6 +1326,15 @@ const TRANSLATIONS = {
     'tx.desc.roleplay':'Introduces the prompt as fiction or roleplay to bypass content filters',
     'tx.desc.typos':'Introduces strategic typos in keywords to avoid exact matches',
     'saveModal.btn':'Save',
+    'pwd.modal.save.title':'Encrypt and save configuration',
+    'pwd.modal.load.title':'Decrypt and load configuration',
+    'pwd.modal.pw.label':'Password','pwd.modal.confirm.label':'Confirm password',
+    'pwd.modal.empty':'Password cannot be empty',
+    'pwd.modal.mismatch':'Passwords do not match',
+    'pwd.modal.ok':'OK',
+    'msg.config.saved':'Configuration encrypted and saved',
+    'msg.config.save.error':'Encryption error: ',
+    'msg.config.decrypt.error':'Decryption error (wrong password?): ',
   },
   fr: {
     'hdr.demo':'/ Démo','hdr.theme.title':'Changer le thème visuel','hdr.theme.btn.title':'Créer un thème personnalisé',
@@ -1465,6 +1509,15 @@ const TRANSLATIONS = {
     'tx.desc.roleplay':'Introduit le prompt comme fiction ou roleplay pour contourner les filtres de contenu',
     'tx.desc.typos':'Introduit des fautes de frappe stratégiques dans les mots-clés pour éviter les correspondances exactes',
     'saveModal.btn':'Sauvegarder',
+    'pwd.modal.save.title':'Chiffrer et sauvegarder la configuration',
+    'pwd.modal.load.title':'Déchiffrer et charger la configuration',
+    'pwd.modal.pw.label':'Mot de passe','pwd.modal.confirm.label':'Confirmer le mot de passe',
+    'pwd.modal.empty':'Le mot de passe ne peut pas être vide',
+    'pwd.modal.mismatch':'Les mots de passe ne correspondent pas',
+    'pwd.modal.ok':'OK',
+    'msg.config.saved':'Configuration chiffrée et sauvegardée',
+    'msg.config.save.error':'Erreur de chiffrement : ',
+    'msg.config.decrypt.error':'Erreur de déchiffrement (mauvais mot de passe ?) : ',
   },
   it: {
     'hdr.demo':'/ Demo','hdr.theme.title':'Cambia tema visivo','hdr.theme.btn.title':'Crea tema personalizzato',
@@ -1639,6 +1692,15 @@ const TRANSLATIONS = {
     'tx.desc.roleplay':'Introduce il prompt come finzione o roleplay per aggirare i filtri dei contenuti',
     'tx.desc.typos':'Introduce errori tipografici strategici nelle parole chiave per evitare corrispondenze esatte',
     'saveModal.btn':'Salva',
+    'pwd.modal.save.title':'Cifra e salva configurazione',
+    'pwd.modal.load.title':'Decrittografa e carica configurazione',
+    'pwd.modal.pw.label':'Password','pwd.modal.confirm.label':'Conferma password',
+    'pwd.modal.empty':'La password non può essere vuota',
+    'pwd.modal.mismatch':'Le password non corrispondono',
+    'pwd.modal.ok':'OK',
+    'msg.config.saved':'Configurazione cifrata e salvata',
+    'msg.config.save.error':'Errore di cifratura: ',
+    'msg.config.decrypt.error':'Errore di decifratura (password errata?): ',
   },
   pt: {
     'btn.run':'▶ Executar','btn.stop':'⏹ Parar',
@@ -1805,6 +1867,15 @@ const TRANSLATIONS = {
     'tx.desc.roleplay':'Apresenta o prompt como ficção ou roleplay para contornar os filtros de conteúdo',
     'tx.desc.typos':'Introduz erros tipográficos estratégicos nas palavras-chave para evitar correspondências exatas',
     'saveModal.btn':'Guardar',
+    'pwd.modal.save.title':'Cifrar e guardar configuração',
+    'pwd.modal.load.title':'Decifrar e carregar configuração',
+    'pwd.modal.pw.label':'Palavra-passe','pwd.modal.confirm.label':'Confirmar palavra-passe',
+    'pwd.modal.empty':'A palavra-passe não pode estar vazia',
+    'pwd.modal.mismatch':'As palavras-passe não coincidem',
+    'pwd.modal.ok':'OK',
+    'msg.config.saved':'Configuração cifrada e guardada',
+    'msg.config.save.error':'Erro ao cifrar: ',
+    'msg.config.decrypt.error':'Erro ao decifrar (palavra-passe incorreta?): ',
   },
 };
 
@@ -3311,46 +3382,108 @@ function deletePrompt() {
 }
 
 // ==================== CONFIG FILE ====================
-function saveConfigFile() {
-  const data = { config: state.config, prompts: state.prompts, theme: state.theme };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `lakera-demo-config-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  setStatus('Configuración guardada en fichero', 'ok');
+// Encryption: AES-GCM 256-bit. Key derivation: PBKDF2 SHA-256 200k iterations.
+// File format: magic(4) + version(1) + salt(16) + iv(12) + ciphertext
+const _MAGIC = new Uint8Array([0x4A,0x53,0x4E,0x5A]); // JSNZ
+
+async function _deriveKey(password, salt) {
+  const km = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']
+  );
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt, iterations:200_000, hash:'SHA-256' },
+    km, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']
+  );
 }
 
-function loadConfigFile() {
+async function _encryptConfig(json, password) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv   = crypto.getRandomValues(new Uint8Array(12));
+  const key  = await _deriveKey(password, salt);
+  const ct   = await crypto.subtle.encrypt({name:'AES-GCM',iv}, key, new TextEncoder().encode(json));
+  const out  = new Uint8Array(4+1+16+12+ct.byteLength);
+  out.set(_MAGIC,0); out[4]=0x01; out.set(salt,5); out.set(iv,21); out.set(new Uint8Array(ct),33);
+  return out;
+}
+
+async function _decryptConfig(bytes, password) {
+  for (let i=0;i<4;i++) if (bytes[i]!==_MAGIC[i]) throw new Error('Not a .jsonz file');
+  if (bytes[4]!==0x01) throw new Error('Unsupported version: '+bytes[4]);
+  const key = await _deriveKey(password, bytes.slice(5,21));
+  const pt  = await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes.slice(21,33)}, key, bytes.slice(33));
+  return new TextDecoder().decode(pt);
+}
+
+let _pwdResolve = null, _pwdMode = 'save';
+function askPassword(mode) {
+  _pwdMode = mode;
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('pwdConfirm').value = '';
+  document.getElementById('pwdError').textContent = '';
+  document.getElementById('pwdConfirmRow').style.display = mode==='save' ? '' : 'none';
+  document.getElementById('pwdModalTitle').textContent = t(mode==='save' ? 'pwd.modal.save.title' : 'pwd.modal.load.title');
+  document.getElementById('modalPassword').classList.add('open');
+  setTimeout(()=>document.getElementById('pwdInput').focus(), 80);
+  return new Promise(resolve => { _pwdResolve = resolve; });
+}
+function submitPassword() {
+  const pw = document.getElementById('pwdInput').value;
+  if (!pw) { document.getElementById('pwdError').textContent = t('pwd.modal.empty'); return; }
+  if (_pwdMode==='save') {
+    const pw2 = document.getElementById('pwdConfirm').value;
+    if (pw!==pw2) { document.getElementById('pwdError').textContent = t('pwd.modal.mismatch'); return; }
+  }
+  document.getElementById('modalPassword').classList.remove('open');
+  if (_pwdResolve) { _pwdResolve(pw); _pwdResolve=null; }
+}
+function cancelPassword() {
+  document.getElementById('modalPassword').classList.remove('open');
+  if (_pwdResolve) { _pwdResolve(null); _pwdResolve=null; }
+}
+
+async function saveConfigFile() {
+  const pw = await askPassword('save');
+  if (!pw) return;
+  const json = JSON.stringify({ config:state.config, prompts:state.prompts, theme:state.theme }, null, 2);
+  try {
+    const encrypted = await _encryptConfig(json, pw);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([encrypted], {type:'application/octet-stream'}));
+    a.download = `lakera-demo-config-${new Date().toISOString().slice(0,10)}.jsonz`;
+    a.click();
+    setStatus(t('msg.config.saved'), 'ok');
+  } catch(e) {
+    setStatus(t('msg.config.save.error') + e.message, 'err');
+  }
+}
+
+async function loadConfigFile() {
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.json,application/json';
-  input.onchange = e => {
+  input.accept = '.jsonz';
+  input.onchange = async e => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try {
-        const data = JSON.parse(ev.target.result);
-        if (data.config) {
-          // Deep merge per section so new fields added to defaults are preserved
-          Object.keys(data.config).forEach(key => {
-            if (state.config[key] && typeof state.config[key] === 'object' && !Array.isArray(state.config[key])) {
-              Object.assign(state.config[key], data.config[key]);
-            } else {
-              state.config[key] = data.config[key];
-            }
-          });
-        }
-        if (data.prompts) state.prompts = data.prompts;
-        if (data.theme) setTheme(data.theme);
-        renderPrompts();
-        setStatus(t('msg.env.loaded') + file.name, 'ok');
-      } catch(err) {
-        setStatus(t('msg.parquet.error') + err.message, 'err');
+    const pw = await askPassword('load');
+    if (!pw) return;
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const json  = await _decryptConfig(bytes, pw);
+      const data  = JSON.parse(json);
+      if (data.config) {
+        Object.keys(data.config).forEach(key => {
+          if (state.config[key] && typeof state.config[key]==='object' && !Array.isArray(state.config[key]))
+            Object.assign(state.config[key], data.config[key]);
+          else state.config[key] = data.config[key];
+        });
       }
-    };
-    reader.readAsText(file);
+      if (data.prompts) state.prompts = data.prompts;
+      if (data.theme) setTheme(data.theme);
+      renderPrompts();
+      setStatus(t('msg.env.loaded') + file.name, 'ok');
+    } catch(e) {
+      setStatus(t('msg.config.decrypt.error') + e.message, 'err');
+    }
   };
   input.click();
 }
